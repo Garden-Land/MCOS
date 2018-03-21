@@ -23,23 +23,23 @@ local URLs = {
 local reasons = {}
 
 if not _G._OSVERSION or tonumber(_G._OSVERSION:sub(8, 10)) < 1.5 then
-	table.insert(reasons, "Old version of OpenComputers mod detected: MineOS requires OpenComputers 1.5 or newer to work properly.")
+	table.insert(reasons, "Старая версия OpenComputers MCOS работает только с версии OpenComputer 1.5!.")
 end
 
 if component.isAvailable("tablet") then
-	table.insert(reasons, "Tablet PC detected: MineOS can't be installed on tablets.")
+	table.insert(reasons, "MCOS обнаружила планшет, MCOS не работает на планшетах!.")
 end
 
 if screen.setPrecise and screen.setPrecise(false) == nil then
-	table.insert(reasons, "Low-tier screen detected: MineOS requires Tier 3 screen to work properly.")
+	table.insert(reasons, "Маленький уровень экрана MCOS работает только с экраном 3 уровня!.")
 else
 	if gpu.maxResolution() < 160 then
-		table.insert(reasons, "Low-tier GPU detected: MineOS requires Tier 3 GPU to work properly.")
+		table.insert(reasons, "Маленький уровень видеокарты MCOS работает только с 3 уровня видеокарты!.")
 	end
 end
 
 if computer.totalMemory() < 2097152 then
-	table.insert(reasons, "Not enough RAM: MineOS requires at least 2MB (2x Tier 3.5 RAM modules) to work properly.")
+	table.insert(reasons, "Не хватает оперативки!.")
 end
 
 if #reasons > 0 and not options.skiphardwarecheck and not options.s then
@@ -77,8 +77,8 @@ local function wget(url, path)
 	shell.execute("wget " .. url .. " " .. path .. " -fq")
 end
 
-print("Downloading MineOS file list...")
-local path = "/MineOS/System/Files.cfg"
+print("Загрузка файлов MCOS!")
+local path = "/MCOS/filelist/"
 wget(URLs.applicationList, path)
 applicationList = unserializeFile(path)
 fs.remove(path)
@@ -94,7 +94,7 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------
 
 print(" ")
-print("Loading installer images...")
+print("Загрузка изображений установщика!")
 local image = require("image")
 
 local images = {
